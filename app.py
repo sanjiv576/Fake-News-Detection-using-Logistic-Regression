@@ -61,7 +61,7 @@ print('Train accuracy: ', accuracy_score(train_y_prediction, y_train))
 
 # on testing set
 testing_y_prediction = model.predict(X_test)
-print(accuracy_score(testing_y_prediction,y_test))
+print('Test accuracy: ',accuracy_score(testing_y_prediction,y_test))
 
 
 
@@ -69,7 +69,7 @@ print(accuracy_score(testing_y_prediction,y_test))
 
 st.title('Fake News Detection System')
 
-inputText = st.text_input('Enter news ')
+inputText = st.text_area('', height=40, placeholder="Write your news")
 
 def prediction(inputText):
     data = vector.transform([inputText])
@@ -83,3 +83,14 @@ if inputText:
         st.write('The news is Fake')
     else:
         st.write('The news is Real')
+
+st.write("""
+
+### Developers and Contributors
+1. Sanjiv Shrestha
+2. Manisha Kumari Tharu
+3. Aarati Kumari Singh
+4. Sudip Singh
+5. Krishna Kumar Thakur
+6. Prashant Deshar
+""")
