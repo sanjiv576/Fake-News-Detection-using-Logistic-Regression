@@ -69,7 +69,7 @@ print('Test accuracy: ',accuracy_score(testing_y_prediction,y_test))
 
 st.title('Fake News Detection System')
 
-inputText = st.text_area('', height=40, placeholder="Write your news")
+inputText = st.text_area('Check News', height=40, placeholder="Write your news")
 
 def prediction(inputText):
     data = vector.transform([inputText])
@@ -80,9 +80,9 @@ if inputText:
     # calls above prediction function
     result = prediction(inputText)
     if result == 1:
-        st.write('The news is Fake')
+        st.write('#### The news is Fake')
     else:
-        st.write('The news is Real')
+        st.write('#### The news is Real')
 
 st.write("""
 
