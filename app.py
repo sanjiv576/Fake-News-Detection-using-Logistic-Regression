@@ -9,19 +9,15 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
-# read csv file
-news = pd.read_csv("/Users/uSer/Desktop/ai/fake news/WELFake_Dataset.csv")
-# remove unnecessary attributes
-news = news.drop(labels=["Unnamed: 0", "title"], axis=1)
-# rename label 
-news['label'] = news['label'].map({1: 'Real', 0: 'Fake'})
-# remove null values
+news = pd.read_csv("data.csv")
+news = news.drop(labels=["URLs", "Headline"], axis=1)
+# rename attributes name
+news.columns = ["text", "label"]
+# rename 0 - fake, 1- real
+news['label'] = news['label'].map({1:'Real', 0:'Fake'})
+news.isna().sum()
 news = news.dropna()
-
-# stemming function
-
 ps = PorterStemmer()
-
 # define a function for stemming
 def stemming(text):
     
@@ -35,12 +31,12 @@ def stemming(text):
 #     join stemmed data by a space
     stemmedContent = ' '.join(stemmedContent)
     return stemmedContent
+    
 
-
-# apply stemming function to the text attribute
+# replace old text attribute's data by its stemming new data that stemmed by above function
+# takes 10/15 mins
 news['text'] = news['text'].apply(stemming)
 
-# For Vectorization
 # separate the data and label
 X = news['text'].values
 y = news['label'].values
@@ -50,12 +46,23 @@ vector = TfidfVectorizer()
 vector.fit(X)
 X = vector.transform(X)
 
-# Separation of training and testing datasets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, stratify = y, random_state = 2)
 
-# Training a model using Logistic Regression classifier
+# count the training set
+X_train.shape
+
 model = LogisticRegression()
 model.fit(X_train,y_train)
+
+# on training set
+train_y_prediction = model.predict(X_train)
+# print and compare with training 
+print('Train accuracy: ', accuracy_score(train_y_prediction, y_train))
+
+# on testing set
+testing_y_prediction = model.predict(X_test)
+print(accuracy_score(testing_y_prediction,y_test))
+
 
 
 # create a website
